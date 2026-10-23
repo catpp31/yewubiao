@@ -96,12 +96,16 @@
       radial-gradient(circle at 50% 50%, #f0ebd8 0%, #cfc9b4 55%, #9a9684 100%);
     box-shadow:0 0 60px rgba(240,235,216,.25), 0 0 120px rgba(240,235,216,.1);
     position:relative;z-index:1;
+    animation:moonBreathe 16s ease-in-out infinite;
   }
-  .blood{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 50% 50%, #a84838 0%, #6a2820 60%, #3a1410 100%);box-shadow:0 0 80px rgba(168,72,56,.4);opacity:0;z-index:2;animation:bloodFade 16s ease-in-out infinite;pointer-events:none}
-  .shadow{position:absolute;width:200px;height:200px;border-radius:50%;background:#05070a;box-shadow:inset 0 0 40px rgba(0,0,0,.8);animation:eclipseMove 16s ease-in-out infinite;z-index:3;pointer-events:none}
-  .eclipse.paused .shadow,.eclipse.paused .blood{animation-play-state:paused}
-  @keyframes eclipseMove{0%{transform:translateX(-200px)}42%{transform:translateX(0)}58%{transform:translateX(0)}100%{transform:translateX(200px)}}
-  @keyframes bloodFade{0%,38%,62%,100%{opacity:0}46%,54%{opacity:.9}}
+  .moon::before{content:"";position:absolute;inset:-40px;border-radius:50%;background:conic-gradient(from 0deg, transparent 0deg, rgba(160,190,255,0) 30deg, rgba(160,190,255,.35) 55deg, rgba(255,255,255,.65) 80deg, rgba(160,190,255,.35) 105deg, rgba(160,190,255,0) 130deg, transparent 360deg);filter:blur(10px);animation:shineRotate 7s linear infinite;pointer-events:none;z-index:0}
+  .moon::after{content:"";position:absolute;inset:-24px;background:linear-gradient(115deg, transparent 42%, rgba(255,255,255,.55) 50%, transparent 58%);filter:blur(8px);animation:shineSweep 5.5s ease-in-out infinite;pointer-events:none}
+  .blood{display:none}
+  .shadow{display:none}
+  .eclipse.paused .moon,.eclipse.paused .moon::before,.eclipse.paused .moon::after{animation-play-state:paused}
+  @keyframes moonBreathe{0%,100%{opacity:.95;filter:brightness(1)}42%,58%{opacity:.22;filter:brightness(.55)}}
+  @keyframes shineRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  @keyframes shineSweep{0%{transform:rotate(-15deg) translateX(-75%)}50%{transform:rotate(-15deg) translateX(75%)}100%{transform:rotate(-15deg) translateX(-75%)}}
   .eclipse-label{font-size:11px;letter-spacing:.3em;color:rgba(232,236,242,.4);text-align:center;line-height:2}
   .eclipse-label b{color:#a8b8d4;font-weight:500}
 
@@ -592,7 +596,7 @@
       <div class="blood"></div>
       <div class="shadow"></div>
     </div>
-    <div class="eclipse-label"><b>月全食</b> · 16 秒一轮回<br>点击月亮可暂停 / 继续</div>
+    <div class="eclipse-label"><b>月亮流光</b> · 16 秒一轮回<br>点击月亮可暂停 / 继续</div>
   </section>
 
   <div class="section-label reveal">ENTRIES · 往下翻</div>
