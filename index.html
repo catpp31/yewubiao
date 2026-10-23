@@ -64,7 +64,7 @@
     position:relative;overflow:hidden;
   }
   .cover-card{padding:14px}
-  .cover{position:relative;width:100%;aspect-ratio:1/1;border-radius:18px;overflow:hidden;background:#1a1d25;cursor:pointer}
+  .cover{position:relative;width:100%;aspect-ratio:1/1;border-radius:18px;overflow:hidden;background:url('https://catpp31.github.io/meigong/bg.jpg') center/cover no-repeat #1a1d25;cursor:pointer}
   .cover img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .55s ease, transform 8s ease}
   .cover.fading img{opacity:0}
   .cover .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,.35) 100%);pointer-events:none}
@@ -810,10 +810,10 @@ function selectItem(i){
   current = i;
   const s = ITEMS[i];
   $('coverPlaceholder').style.display = 'none';
-  coverImg.style.display = 'block';
+  coverImg.style.display = 'none';
   cover.querySelector('.shade').style.display = 'block';
   cover.querySelector('.gloss').style.display = 'block';
-  coverIndex.style.display = 'block';
+  coverIndex.style.display = 'none';
   cover.classList.remove('placeholder');
   info.classList.add('swapping');
   setTimeout(() => {
@@ -822,14 +822,6 @@ function selectItem(i){
     songDesc.textContent    = s.desc || '（还没有写描述）';
     info.classList.remove('swapping');
   }, 280);
-  cover.classList.add('fading');
-  setTimeout(() => {
-    coverImg.src = s.img || PLACEHOLDER_IMG;
-    coverImg.style.transform = 'scale(1.08)';
-    coverIndex.textContent = String(i+1).padStart(2,'0') + ' / ' + String(ITEMS.length).padStart(2,'0');
-    cover.classList.remove('fading');
-    setTimeout(() => { coverImg.style.transform = 'scale(1)'; }, 60);
-  }, 480);
   renderList();
 }
 
