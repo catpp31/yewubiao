@@ -110,7 +110,7 @@
 
   .track-card{
     position:relative;overflow:hidden;
-    margin-bottom:140px;padding:0;
+    margin-bottom:140px;padding:32px 26px;
     border-radius:24px;
     background:rgba(255,255,255,.04);
     border:1px solid rgba(255,255,255,.07);
@@ -118,24 +118,40 @@
     cursor:pointer;transition:all .3s ease;
   }
   .track-card:active{transform:scale(.985)}
-  .track-card.active{border-color:rgba(138,160,192,.35)}
+  .track-card.active{background:rgba(138,160,192,.13);border-color:rgba(138,160,192,.35)}
 
-  .t-cover{
-    width:100%;aspect-ratio:4/3;overflow:hidden;position:relative;
-    background:#1a1d25;
+  .meteor{
+    position:absolute;width:2px;height:2px;border-radius:50%;
+    background:#fff;pointer-events:none;opacity:0;
+    box-shadow:0 0 6px #fff;
   }
-  .t-cover img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
-  .track-card:active .t-cover img{transform:scale(1.04)}
-  .t-cover-num{
-    position:absolute;bottom:14px;left:18px;
-    font-family:"Noto Serif SC",serif;font-size:48px;font-weight:300;
-    color:rgba(255,255,255,.5);text-shadow:0 2px 12px rgba(0,0,0,.5);
+  .meteor::after{
+    content:"";position:absolute;right:0;top:50%;
+    width:80px;height:1px;
+    background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.8));
+    transform:translateY(-50%);
   }
-  .t-body{padding:22px 24px 18px}
+  .meteor.m1{top:10%;left:80%;animation:meteorFly 5s linear infinite}
+  .meteor.m2{top:30%;left:60%;animation:meteorFly 6s linear infinite 2s}
+  .meteor.m3{top:55%;left:90%;animation:meteorFly 7s linear infinite 4s}
+  @keyframes meteorFly{
+    0%{transform:translate(0,0) rotate(-35deg);opacity:0}
+    10%{opacity:1}
+    70%{opacity:1}
+    100%{transform:translate(-160px,120px) rotate(-35deg);opacity:0}
+  }
+
+  .t-num-big{font-family:"Noto Serif SC",serif;font-size:64px;font-weight:300;line-height:1;color:rgba(232,236,242,.1);letter-spacing:-.02em;margin-bottom:24px;font-variant-numeric:tabular-nums}
+  .track-card.active .t-num-big{color:rgba(168,184,212,.3)}
+
+  .t-row{display:flex;gap:18px;align-items:flex-start}
+  .t-thumb{width:80px;height:80px;border-radius:16px;overflow:hidden;flex-shrink:0;background:#1a1d25}
+  .t-thumb img{width:100%;height:100%;object-fit:cover}
+  .t-body{flex:1;min-width:0}
   .t-name{font-family:"Noto Serif SC",serif;font-size:22px;font-weight:600;color:rgba(232,236,242,.92);line-height:1.4;animation:floatText 5s ease-in-out infinite}
   .track-card.active .t-name{color:#c8d4e6}
   .t-artist{font-size:12px;color:rgba(232,236,242,.45);margin-top:8px;letter-spacing:.05em;animation:floatText 5s ease-in-out infinite .5s}
-  .t-desc{font-size:13.5px;line-height:2;color:rgba(232,236,242,.55);margin-top:14px;font-weight:300;animation:floatText 6s ease-in-out infinite 1s}
+  .t-desc{font-size:13.5px;line-height:2;color:rgba(232,236,242,.55);margin-top:18px;font-weight:300;animation:floatText 6s ease-in-out infinite 1s}
   @keyframes floatText{
     0%,100%{transform:translateY(0)}
     50%{transform:translateY(-3px)}
@@ -269,7 +285,7 @@
 
   /* ===== 大邮票（第一屏，中间撕开） ===== */
   .big-stamp{
-    position:relative;width:300px;height:170px;
+    position:relative;width:340px;height:200px;
     animation:stampFade .8s ease both;
   }
   .stamp-half{
@@ -303,35 +319,28 @@
     opacity:0;
   }
   .big-stamp.torn .stamp-half.left{opacity:.3}
-  /* 雪花泡泡：可点击爆开 */
+  /* 月全食月亮 */
   .stamp-moon{
     width:56px;height:56px;border-radius:50%;
-    background:radial-gradient(circle at 38% 35%, #fff, #e8eef8);
-    box-shadow:0 0 24px rgba(200,220,245,.7), inset -3px -3px 8px rgba(150,165,195,.15);
-    position:relative;cursor:pointer;user-select:none;
-    display:flex;align-items:center;justify-content:center;
-    transition:transform .4s cubic-bezier(.3,1.4,.5,1);
+    background:radial-gradient(circle at 38% 35%, #fff, #e0e6f0);
+    box-shadow:0 0 20px rgba(200,215,240,.6), inset -3px -3px 8px rgba(150,165,195,.2);
+    position:relative;overflow:hidden;
+    animation:moonEclipse 6s ease-in-out infinite;
   }
-  .stamp-moon:hover{transform:scale(1.08)}
-  .stamp-moon .snowflake{
-    font-size:24px;color:#8aa0c0;line-height:1;
+  .stamp-moon::after{
+    content:"";position:absolute;top:0;left:0;width:100%;height:100%;
+    border-radius:50%;
+    background:radial-gradient(circle at 65% 40%, #d8dce8, #b8c0d4);
+    transform:translateX(0);
+    animation:moonShadow 6s ease-in-out infinite;
   }
-  .stamp-moon.burst{animation:bubbleBurst .6s ease-out forwards}
-  .stamp-moon.burst .snowflake{animation:snowflakeFlip .6s ease-out forwards}
-  .stamp-moon.regrow{animation:bubbleRegrow .8s ease-out forwards}
-  @keyframes bubbleBurst{
-    0%{transform:scale(1)}
-    40%{transform:scale(1.15)}
-    100%{transform:scale(0);opacity:0}
+  @keyframes moonEclipse{
+    0%,100%{box-shadow:0 0 20px rgba(200,215,240,.6)}
+    50%{box-shadow:0 0 8px rgba(180,190,215,.3)}
   }
-  @keyframes snowflakeFlip{
-    0%{transform:rotate(0deg);opacity:1}
-    100%{transform:rotate(360deg) scale(.3);opacity:0}
-  }
-  @keyframes bubbleRegrow{
-    0%{transform:scale(0);opacity:0}
-    60%{transform:scale(1.1)}
-    100%{transform:scale(1);opacity:1}
+  @keyframes moonShadow{
+    0%,100%{transform:translateX(60%)}
+    50%{transform:translateX(-10%)}
   }
   .stamp-half .stamp-txt{
     font-size:13px;letter-spacing:.25em;color:#6a7a9a;
@@ -418,7 +427,7 @@
     100%{transform:translate(-140px,100px) rotate(-35deg);opacity:0}
   }
 
-  /* ===== 进入确认癖の小世界 ===== */
+  /* ===== 进入确认小邀请函 ===== */
   .confirm{
     position:fixed;inset:0;z-index:70;
     background:rgba(5,7,10,.7);backdrop-filter:blur(6px);
@@ -488,19 +497,8 @@
     cursor:pointer;font-family:inherit;margin-bottom:24px;
   }
   .detail-back svg{width:14px;height:14px;fill:currentColor}
-  .detail-img{width:100%;aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:#1a1d25;margin-bottom:30px;animation:fadeUp .8s ease both;position:relative}
+  .detail-img{width:100%;aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:#1a1d25;margin-bottom:30px;animation:fadeUp .8s ease both}
   .detail-img img{width:100%;height:100%;object-fit:cover}
-  .shuffle-btn{
-    position:absolute;bottom:12px;right:12px;
-    width:40px;height:40px;border-radius:50%;
-    background:rgba(10,12,16,.6);backdrop-filter:blur(10px);
-    border:1px solid rgba(255,255,255,.15);
-    color:#c8d4e6;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    transition:transform .3s;
-  }
-  .shuffle-btn:active{transform:scale(.9) rotate(180deg)}
-  .shuffle-btn svg{width:18px;height:18px;fill:currentColor}
   .detail-title{font-family:"Noto Serif SC",serif;font-size:32px;font-weight:600;color:#f2f5fa;line-height:1.35;animation:fadeUp .8s .15s ease both}
   .detail-artist{margin-top:10px;font-size:13px;color:rgba(232,236,242,.5);animation:fadeUp .8s .25s ease both}
   .detail-desc{margin-top:24px;font-size:15.5px;line-height:2.2;color:rgba(232,236,242,.7);font-weight:300;animation:fadeUp .8s .35s ease both}
@@ -524,15 +522,15 @@
         <div class="stamp-deco" style="top:50%;left:8px;opacity:.3">·</div>
         <div class="stamp-deco" style="top:30%;right:10px;opacity:.35">·</div>
         <div class="stamp-half left">
-          <div class="stamp-moon" id="stampBubble"><span class="snowflake">❄</span></div>
+          <div class="stamp-moon"></div>
         </div>
         <div class="stamp-tear-line"></div>
         <div class="stamp-half right">
-          <div class="stamp-txt">癖の自定义</div>
+          <div class="stamp-txt">PRIVATE · 私 密</div>
         </div>
         <div class="stamp-hint">— 长 按 撕 开 —</div>
       </div>
-      <button class="enter-invite" id="enterInvite">癖の小世界 →</button>
+      <button class="enter-invite" id="enterInvite">进入邀请函 →</button>
     </div>
     <!-- 第二屏：癖の自定义 -->
     <div class="welcome-slide slide-dark">
@@ -579,7 +577,7 @@
       <span class="tag">当前选中</span>
       <h1 class="song-title" id="songTitle">空册</h1>
       <div class="song-artist"><b id="songArtist">—</b></div>
-      <p class="song-desc" id="songDesc">人类是我的兼职，我只是一块脆薯饼。。</p>
+      <p class="song-desc" id="songDesc">这是一个可以自己改文字和图片的竖版图文页。往下滑，中间有一场月全食在等你。</p>
     </div>
     <div class="actions">
       <button class="btn btn-primary" id="nextBtn">下一段 →</button>
@@ -612,7 +610,7 @@
   <h2 id="sheetTitle">添加一段内容</h2>
   <div class="field"><label>标题</label><input id="fTitle" placeholder="例如：雨停之前"></div>
   <div class="field"><label>副标题 / 作者</label><input id="fArtist" placeholder="例如：某个深夜"></div>
-  <div class="field"><label>图片链接（每行一个，可放多张轮播）</label><textarea id="fImgs" rows="3" placeholder="粘贴图片 URL，每行一个&#10;第 1 张是封面"></textarea></div>
+  <div class="field"><label>图片链接</label><input id="fImg" placeholder="粘贴图片 URL"><div class="sub">支持任意图床 URL；不填会用默认占位图。</div></div>
   <div class="field"><label>正文描述</label><textarea id="fDesc" placeholder="写点什么……"></textarea></div>
   <div class="sheet-actions">
     <button class="btn" id="cancelAdd">取消</button>
@@ -654,12 +652,7 @@
     <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
     返回列表
   </button>
-  <div class="detail-img">
-    <img id="detailImg" src="" alt="">
-    <button class="shuffle-btn" id="shuffleBtn" title="换一张">
-      <svg viewBox="0 0 24 24"><path d="M17 3l4 4-4 4V8h-3.5l-2.5 3-2.5-3H5V5h6l2.5 3 2.5-3h1V3zm0 14v3l4-4-4-4v3h-1l-2.5 3-2.5-3H5v-2h6l2.5 3 2.5-3h1z"/></svg>
-    </button>
-  </div>
+  <div class="detail-img"><img id="detailImg" src="" alt=""></div>
   <h1 class="detail-title" id="detailTitle">—</h1>
   <div class="detail-artist" id="detailArtist">—</div>
   <p class="detail-desc" id="detailDesc">—</p>
@@ -721,16 +714,8 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 function observeReveal(el){ io.observe(el); }
 
-const POOL1 = 'https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/H6mob4fb3o5NH2xT3QNckqlvnTe';
-const POOL2 = 'https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/U61ebB66jo7kKbxUWWFcJlyVnWh';
-const POOL3 = 'https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/XJV4bIqF8oyEfnxvI49czAoxnid';
-const POOL4 = 'https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/ArvjbJrCXoTLVqxSfboc8e4qnVf';
-const POOL5 = 'https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/YJYwbq2sHo4qc1xy6SScvOq5nid';
 const DEMO_ITEMS = [
-  {title:"癖の业务", artist:"𓂂 ₊˚ᜊ ほっこりハート弁当 ᜊ ‧₊˚", imgs:['https://catpp31.github.io/meigong/img4.jpg',], desc:"全能美工 款式多已分类好相册 卡类 冠类 活动表 价格表 娱乐玩法飞行棋 兑换商店 趣味单等 表情包 pm  状态头 三联页 logo  都有。"},
-  {title:"癖の预存", artist:"˚₊﹢𓂃私たちの永遠の幸福𓂃﹢₊˚", imgs:['https://catpp31.github.io/meigong/img2.jpg','https://catpp31.github.io/meigong/img3.jpg'], desc:"累计预存后可解锁专属预存/美化专属预存。"},
-  {title:"癖の定制", artist:"收呆梨私 ", imgs:['https://catpp31.github.io/meigong/img1.jpg',], desc:"一站式出图 无需你干苦力活 一站式出图 无需你干苦力活。"}
-];
+  {title:"୨୧癖୨୧", artist:"我的眼淚是昨天的雪୨୧", img:"https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/H6mob4fb3o5NH2xT3QNckqlvnTe", desc:"你的出現讓我開始相信天使的存在🤍🩶🖤", img:"https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/U61ebB66jo7kKbxUWWFcJlyVnWh", desc:"୨୧癖୨୧业务୨୧癖୨୧自美工 接定制 收呆梨。"},
 function load(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -753,14 +738,14 @@ function renderList(){
       <span class="meteor m1"></span>
       <span class="meteor m2"></span>
       <span class="meteor m3"></span>
-      <div class="t-cover">
-        <img src="${(s.imgs&&s.imgs[0]) || s.img || PLACEHOLDER_IMG}" alt="" onerror="this.src='${PLACEHOLDER_IMG}'">
-        <div class="t-cover-num">${String(i+1).padStart(2,'0')}</div>
-      </div>
-      <div class="t-body">
-        <div class="t-name">${escapeHtml(s.title)}</div>
-        <div class="t-artist">${escapeHtml(s.artist || '')}</div>
-        ${s.desc ? `<div class="t-desc">${escapeHtml(s.desc)}</div>` : ''}
+      <div class="t-num-big">${String(i+1).padStart(2,'0')}</div>
+      <div class="t-row">
+        <div class="t-thumb"><img src="${s.img || PLACEHOLDER_IMG}" alt="" onerror="this.src='${PLACEHOLDER_IMG}'"></div>
+        <div class="t-body">
+          <div class="t-name">${escapeHtml(s.title)}</div>
+          <div class="t-artist">${escapeHtml(s.artist || '')}</div>
+          ${s.desc ? `<div class="t-desc">${escapeHtml(s.desc)}</div>` : ''}
+        </div>
       </div>
       <div class="t-foot">
         <div class="t-status">第 ${i+1} 段</div>
@@ -864,19 +849,9 @@ document.getElementById('confirmNo').addEventListener('click', () => {
   pendingIdx = -1;
 });
 
-let currentDetailIdx = -1;
-let detailImgIdx = 0;
-
-function getImgs(s){
-  if(s.imgs && s.imgs.length) return s.imgs;
-  return [s.img || PLACEHOLDER_IMG];
-}
-
 function openDetail(i){
   const s = ITEMS[i];
-  currentDetailIdx = i;
-  detailImgIdx = 0;
-  $('detailImg').src = getImgs(s)[0];
+  $('detailImg').src = s.img || PLACEHOLDER_IMG;
   $('detailTitle').textContent = s.title;
   $('detailArtist').textContent = s.artist || '';
   $('detailDesc').textContent = s.desc || '';
@@ -887,18 +862,6 @@ function openDetail(i){
   detail.classList.add('show');
   document.body.style.overflow = 'hidden';
 }
-
-$('shuffleBtn').addEventListener('click', (e) => {
-  e.stopPropagation();
-  const s = ITEMS[currentDetailIdx];
-  const imgs = getImgs(s);
-  if(imgs.length < 2) return;
-  detailImgIdx = (detailImgIdx + 1) % imgs.length;
-  $('detailImg').style.animation = 'none';
-  $('detailImg').offsetHeight;
-  $('detailImg').style.animation = 'fadeUp .5s ease';
-  $('detailImg').src = imgs[detailImgIdx];
-});
 $('detailBack').addEventListener('click', () => {
   detail.classList.remove('show');
   document.body.style.overflow = '';
@@ -924,12 +887,11 @@ function openSheet(idx){
     $('sheetTitle').textContent = '编辑 · ' + ITEMS[idx].title;
     $('fTitle').value = ITEMS[idx].title || '';
     $('fArtist').value = ITEMS[idx].artist || '';
-    const imgs = ITEMS[idx].imgs && ITEMS[idx].imgs.length ? ITEMS[idx].imgs : [ITEMS[idx].img || ''];
-    $('fImgs').value = imgs.join('\n');
+    $('fImg').value = ITEMS[idx].img || '';
     $('fDesc').value = ITEMS[idx].desc || '';
   } else {
     $('sheetTitle').textContent = '添加一段内容';
-    $('fTitle').value = ''; $('fArtist').value = ''; $('fImgs').value = ''; $('fDesc').value = '';
+    ['fTitle','fArtist','fImg','fDesc'].forEach(id => $(id).value = '');
   }
   sheet.classList.add('show'); mask.classList.add('show');
 }
@@ -941,15 +903,13 @@ mask.addEventListener('click', () => {
   $('inviteSheet').classList.remove('show');
 });
 $('confirmAdd').addEventListener('click', () => {
-  const imgs = $('fImgs').value.split('\n').map(s => s.trim()).filter(Boolean);
   const data = {
     title: $('fTitle').value.trim(),
     artist: $('fArtist').value.trim(),
-    imgs: imgs,
-    img: imgs[0] || '',
+    img: $('fImg').value.trim(),
     desc: $('fDesc').value.trim()
   };
-  if(!data.title){ alert('不萌则已 一萌惊人^ω^'); return; }
+  if(!data.title){ alert('请至少填写标题'); return; }
   if(editingIdx >= 0) ITEMS[editingIdx] = data;
   else ITEMS.push(data);
   save(); renderList(); closeSheet();
@@ -1083,23 +1043,6 @@ const DEFAULT_STAMP_TXT = '长按邮票可撕开';
   document.getElementById('enterInvite').addEventListener('click', () => {
     track.classList.add('slide-in');
   });
-
-  /* 雪花泡泡点击爆开 */
-  const bubble = document.getElementById('stampBubble');
-  let bursting = false;
-  bubble.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if(bursting) return;
-    bursting = true;
-    bubble.classList.remove('regrow');
-    bubble.classList.add('burst');
-    setTimeout(() => {
-      bubble.classList.remove('burst');
-      bubble.classList.add('regrow');
-      setTimeout(() => { bubble.classList.remove('regrow'); bursting = false; }, 800);
-    }, 600);
-  });
-
 
   /* 全屏雪地雪花 */
   const snowFull = document.getElementById('snowFull');
