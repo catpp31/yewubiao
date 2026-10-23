@@ -89,23 +89,20 @@
   .eclipse-section{margin:160px 0;display:flex;flex-direction:column;align-items:center;gap:24px}
   .eclipse{position:relative;width:240px;height:240px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;border-radius:50%}
   .moon{
-    width:180px;height:180px;border-radius:50%;
+    width:150px;height:150px;border-radius:50%;
     background:
       radial-gradient(circle at 32% 30%, rgba(255,255,255,.4) 0%, transparent 40%),
       radial-gradient(circle at 68% 72%, rgba(0,0,0,.12) 0%, transparent 30%),
-      radial-gradient(circle at 50% 50%, #f0ebd8 0%, #cfc9b4 55%, #9a9684 100%);
-    box-shadow:0 0 60px rgba(240,235,216,.25), 0 0 120px rgba(240,235,216,.1);
+      radial-gradient(circle at 50% 50%, #efe9d6 0%, #d3cdb6 55%, #a8a38e 100%);
+    box-shadow:0 0 50px rgba(240,235,216,.28), 0 0 110px rgba(240,235,216,.12);
     position:relative;z-index:1;
-    animation:moonBreathe 16s ease-in-out infinite;
   }
-  .moon::before{content:"";position:absolute;inset:-40px;border-radius:50%;background:conic-gradient(from 0deg, transparent 0deg, rgba(160,190,255,0) 30deg, rgba(160,190,255,.35) 55deg, rgba(255,255,255,.65) 80deg, rgba(160,190,255,.35) 105deg, rgba(160,190,255,0) 130deg, transparent 360deg);filter:blur(10px);animation:shineRotate 7s linear infinite;pointer-events:none;z-index:0}
-  .moon::after{content:"";position:absolute;inset:-24px;background:linear-gradient(115deg, transparent 42%, rgba(255,255,255,.55) 50%, transparent 58%);filter:blur(8px);animation:shineSweep 5.5s ease-in-out infinite;pointer-events:none}
+  .star{position:absolute;top:-12px;width:var(--s,3px);height:var(--s,3px);border-radius:50%;background:#fff;box-shadow:0 0 6px rgba(255,255,255,.95),0 0 14px rgba(200,220,255,.6);opacity:0;pointer-events:none;animation:starFall var(--d,5s) linear infinite;animation-delay:var(--dl,0s);z-index:2}
+  .star::after{content:"";position:absolute;top:50%;left:0;width:var(--t,16px);height:1px;background:linear-gradient(90deg,rgba(255,255,255,.75),rgba(255,255,255,0));transform:translateY(-50%)}
   .blood{display:none}
   .shadow{display:none}
-  .eclipse.paused .moon,.eclipse.paused .moon::before,.eclipse.paused .moon::after{animation-play-state:paused}
-  @keyframes moonBreathe{0%,100%{opacity:.95;filter:brightness(1)}42%,58%{opacity:.22;filter:brightness(.55)}}
-  @keyframes shineRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-  @keyframes shineSweep{0%{transform:rotate(-15deg) translateX(-75%)}50%{transform:rotate(-15deg) translateX(75%)}100%{transform:rotate(-15deg) translateX(-75%)}}
+  .eclipse.paused .star{animation-play-state:paused}
+  @keyframes starFall{0%{transform:translateY(-14px);opacity:0}6%{opacity:1}62%{opacity:.85}100%{transform:translateY(248px);opacity:0}}
   .eclipse-label{font-size:11px;letter-spacing:.3em;color:rgba(232,236,242,.4);text-align:center;line-height:2}
   .eclipse-label b{color:#a8b8d4;font-weight:500}
 
@@ -121,6 +118,10 @@
     backdrop-filter:blur(16px);
     cursor:pointer;transition:all .3s ease;
   }
+  .track-card::after{content:"";position:absolute;top:-6%;left:-15%;width:150px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);border-radius:2px;filter:blur(1.5px);opacity:0;z-index:6;pointer-events:none;transform:rotate(22deg);animation:meteor 6s ease-in-out infinite}
+  .track-card:nth-child(2)::after{animation-delay:2s}
+  .track-card:nth-child(3)::after{animation-delay:4s}
+  @keyframes meteor{0%{transform:rotate(22deg) translateX(-140%);opacity:0}4%{opacity:.9}13%{opacity:0}100%{transform:rotate(22deg) translateX(340%);opacity:0}}
   .track-card:active{transform:scale(.985)}
   .track-card.active{border-color:rgba(138,160,192,.35)}
 
@@ -595,8 +596,15 @@
       <div class="moon"></div>
       <div class="blood"></div>
       <div class="shadow"></div>
+      <i class="star" style="--s:3px;--t:16px;--d:4.2s;--dl:0s;left:14%"></i>
+      <i class="star" style="--s:2px;--t:12px;--d:5.8s;--dl:1.2s;left:31%"></i>
+      <i class="star" style="--s:3px;--t:18px;--d:4.8s;--dl:2.4s;left:48%"></i>
+      <i class="star" style="--s:2px;--t:11px;--d:6.4s;--dl:0.8s;left:63%"></i>
+      <i class="star" style="--s:4px;--t:20px;--d:5.2s;--dl:3s;left:76%"></i>
+      <i class="star" style="--s:2px;--t:13px;--d:6.9s;--dl:2s;left:88%"></i>
+      <i class="star" style="--s:3px;--t:15px;--d:5.5s;--dl:4s;left:22%"></i>
     </div>
-    <div class="eclipse-label"><b>月亮流光</b> · 16 秒一轮回<br>点击月亮可暂停 / 继续</div>
+    <div class="eclipse-label"><b>星星坠落</b> · 静夜流光<br>点击月亮可暂停 / 继续</div>
   </section>
 
   <div class="section-label reveal">ENTRIES · 往下翻</div>
